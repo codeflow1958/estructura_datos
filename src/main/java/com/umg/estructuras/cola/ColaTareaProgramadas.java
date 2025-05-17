@@ -1,4 +1,4 @@
 package com.umg.estructuras.cola;
 
-public class cola {
+public class ColaTareaProgramadas {
 }
