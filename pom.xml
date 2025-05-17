@@ -13,4 +13,21 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version> <configuration>
+                <source>${maven.compiler.source}</source>
+                <target>${maven.compiler.target}</target>
+                <release>18</release>
+                <fork>true</fork>
+                <executable>C:\Program Files\Java\jdk-18.0.2\bin\javac</executable>  </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
 </project>
