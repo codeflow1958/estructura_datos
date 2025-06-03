@@ -2,7 +2,7 @@ package com.umg.estructuras.arbol;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.reflect.Field;
+import java.lang.reflect.Field; // Importa la clase Field para usar reflexión
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,12 +32,6 @@ public class ArbolJerarquicoTareas<T> {
         this.raiz = raiz;
     }
 
-    /**
-     * Agrega un dato (Tarea) al árbol. Si idPadre es null, se intenta agregar como raíz.
-     * Si el árbol está vacío, el primer dato se convierte en la raíz.
-     * @param dato El dato (Tarea) a agregar.
-     * @param idPadre El ID del dato padre al que se asociará esta tarea. Si es null, se intenta agregar como raíz.
-     */
     public void agregarTarea(T dato, Long idPadre) {
         LOGGER.log(Level.INFO, "Intentando agregar dato al árbol. Dato: {0}, ID Padre: {1}", new Object[]{dato, idPadre});
         NodoArbolTarea<T> nuevoNodo = new NodoArbolTarea<>(dato);
@@ -191,7 +185,7 @@ public class ArbolJerarquicoTareas<T> {
                 idField.setAccessible(true);
                 Object hijoIdValue = idField.get(hijo.getDato());
 
-                if (hijoIdValue != null && hijoIdValue.equals(idDato)) {
+                if (hijoIdValue != null && ((Long) hijoIdValue).equals(idDato)) { // <--- CAMBIO AQUÍ: Cast a Long
                     hijos.remove(i); // Elimina el hijo de la lista de hijos del nodo actual
                     LOGGER.log(Level.INFO, "Nodo con ID: {0} eliminado del árbol. Sus hijos (si los tiene) también son desconectados.", idDato);
                     return true;
@@ -298,7 +292,7 @@ public class ArbolJerarquicoTareas<T> {
                 // Si la raíz ya existe y se intenta mover un nodo a 'null' (convertirlo en raíz)
                 // y el árbol no está vacío, esto es un error de lógica o debe manejarse de forma específica.
                 // Aquí, por simplicidad, lo agregaremos como hijo de la raíz principal si no se especifica nuevo padre.
-                // Esto es una simplificación; la lógica real de "mover a la raíz" es compleja.
+                // Esto es una simplificación; la lógica real de "mover a la raíz' es compleja.
                 raiz.agregarHijo(nodoAMover); // Lo agrega como hijo de la raíz existente.
                 LOGGER.log(Level.INFO, "Nodo con ID {0} movido como hijo de la raíz existente (nuevo padre null).", idDatoAMover);
             }
@@ -308,7 +302,7 @@ public class ArbolJerarquicoTareas<T> {
 
 
     /**
-     * Método auxiliar para encontrar el padre directo de un nodo dado.
+     * Metodo auxiliar para encontrar el padre directo de un nodo dado.
      * @param nodoActual El nodo actual en el recorrido recursivo.
      * @param nodoBuscado El nodo cuyo padre estamos buscando.
      * @return El NodoArbolTarea que es padre directo de nodoBuscado, o null si no se encuentra.
