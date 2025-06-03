@@ -232,7 +232,17 @@ public class ArbolJerarquicoTareas<T> {
 
         if (padreActual != null) {
             padreActual.getHijos().remove(nodoAMover);
-            LOGGER.log(Level.INFO, "Nodo con ID {0} removido de su padre actual con ID {1}.", new Object[]{idDatoAMover, padreActual.getDato().getId()});
+            Object padreIdValue = null;
+            try {
+                Field idField = padreActual.getDato().getClass().getDeclaredField("id");
+                idField.setAccessible(true);
+                padreIdValue = idField.get(padreActual.getDato());
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                LOGGER.log(Level.SEVERE, "Error al acceder al campo 'id' del padre actual: {0}", e.getMessage());
+            }
+
+            LOGGER.log(Level.INFO, "Nodo con ID {0} removido de su padre actual con ID {1}.",
+                    new Object[]{idDatoAMover, padreIdValue});
         } else if (nodoAMover == raiz) {
             // Si el nodo a mover es la raíz, no tiene padre actual, y la moveremos a una nueva posición
             // No podemos simplemente hacer 'raiz = null' aquí, ya que los hijos de la raíz se perderían temporalmente.
